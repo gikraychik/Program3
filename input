@@ -38,6 +38,7 @@ init global adminTimer;
 init global oldt1;
 init global oldt2;
 init global timer;
+init global oldVol;
 
 label 0;
 s1 = 0; ind2 = 1; ind3 = 0;
@@ -46,7 +47,8 @@ standTimer = 750;
 adminTimer = 750;
 timer = 30000;
 maxDes = 26; minDes = 20;
-init x = t3 + isStand + checkSum == 12580;
+oldVol = 10;
+init x = t3 + voltage + checkSum == 12580;
 x = x ? 4 : 2;
 goto x;
 delete x;
@@ -64,7 +66,7 @@ goto 3;
 
 label 3;
 define next_state as TMP24;
-init x = 12580 - (t3 + isStand);
+init x = 12580 - (t3 + voltage);
 checkSum = x;
 x = next_state;
 erase next_state;
@@ -76,15 +78,15 @@ oldt1 = t1; oldt2 = t2;
 s1 = 0; s2 = 0; s3 = 0; s4 = 0;
 ind1 = 0; ind3 = 0; ind4 = 0; ind5 = 0;
 led0 = 0; led1 = 0; led2 = 0; led3 = 0;
-video = 0; isStand = 0; voltage = 0;
+video = 0; voltage = 0;
 define y as TMP24;
 y = 4;
 erase y;
 init x = standTimer == 0;
-timer = 30000	;
+timer = 30000;
 x = x ? 5 : 9;
 if (standTimer == 0) { standTimer = 750; }
-if (x == 5) { s1 = 1; ind3 = 1; voltage = 10; }
+if (x == 5) { s1 = 1; ind3 = 1; }
 goto x;
 delete x;
 
@@ -98,7 +100,7 @@ if ((video == 0) && !error2) { l0 = 0; output = t2; }
 if ((video == 1) && !error1) { l0 = 118; output = t1; }
 if (video == 2) { l0 = 236; output = t3; }
 if (video == 3) { l0 = 236; output = des; }
-if (video == 4) { l0 = 0; output = voltage; }
+if (video == 4) { l0 = 0; output = oldVol; }
 led0 = l0;
 delete l0;
 print(output, TMP21);
@@ -215,10 +217,10 @@ des = curDes;
 delete curDes;
 
 y = v4 && x;
-init vol = voltage;
-if (y && up && (vol < 10)) { vol = vol + 1; }
-if (y && down && (vol > 5)) { vol = vol - 1; }
-voltage = vol;
+init vol = oldVol;
+if (y && u && (vol < 10)) { vol = vol + 1; }
+if (y && d && (vol > 5)) { vol = vol - 1; }
+oldVol = vol;
 delete vol;
 if (v4 && !x) { v = 0; }
 
@@ -245,6 +247,7 @@ label 8;
 define des as TMP25;
 if (!(video == 3)) { t3 = des; }
 erase des;
+if (!(video == 4)) { voltage = oldVol; }
 define afterState as TMP24;
 afterState = 5;
 erase afterState;
