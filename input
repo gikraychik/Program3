@@ -48,7 +48,7 @@ adminTimer = 750;
 timer = 30000;
 maxDes = 26; minDes = 20;
 oldVol = 10;
-init x = t3 + voltage + checkSum == 12580;
+init x = t3 + voltage + checkSum == 243;
 x = x ? 4 : 2;
 goto x;
 delete x;
@@ -58,7 +58,7 @@ init x; delete x;
 goto 1;
 
 label 2;
-t3 = 22;
+t3 = 22; voltage = 10;
 define z as TMP24;
 z = 4;
 erase z;
@@ -66,7 +66,7 @@ goto 3;
 
 label 3;
 define next_state as TMP24;
-init x = 12580 - (t3 + voltage);
+init x = 243 - (t3 + voltage);
 checkSum = x;
 x = next_state;
 erase next_state;
