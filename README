@@ -1,0 +1,1 @@
+Program 3 "NITA". PWM_PERCENT changes manually in VIDEO_MODE == 0. Administration mode switched to VIDEO_MODE == 1. This program is based on program 2 (except voltage).
