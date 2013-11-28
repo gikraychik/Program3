@@ -46,7 +46,7 @@ timerMSec = 62500;
 standTimer = 750;
 adminTimer = 750;
 timer = 30000;
-maxDes = 26; minDes = 20;
+maxDes = 30; minDes = 10;
 oldVol = 10;
 init x = t3 + voltage + checkSum == 243;
 x = x ? 4 : 2;
@@ -230,8 +230,6 @@ delete v0; delete v1; delete v2; delete v3; delete v4;
 video = v; delete v;
 init wasIn = 0;
 init ready = adminTimer == 0;
-if (ready && (minDes == 20)) { wasIn = 1; minDes = 10; maxDes = 30; }
-if (ready && (minDes == 10) && !wasIn) { minDes = 20; maxDes = 26; }
 if (ready) { adminTimer = 750; }
 delete wasIn;
 init next = 8;
